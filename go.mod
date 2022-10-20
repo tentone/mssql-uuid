@@ -1,3 +1,3 @@
 module github.com/tentone/mssql-uuid
 
-go 1.13
+go 1.19

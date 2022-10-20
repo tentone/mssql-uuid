@@ -1,18 +1,17 @@
-package mssql-uuid
+package mssql
 
 import (
 	"crypto/rand"
 	"fmt"
 	"io"
 	"net"
-	"sync"
 	"time"
 )
 
 type epochFunc func() time.Time
 type hwAddrFunc func() (net.HardwareAddr, error)
 
-var generator = newRFC4122Generator()
+var generator = NewRFC4122Generator()
 
 // NewV4 returns random generated UUID.
 func NewV4() UUID {
@@ -22,21 +21,15 @@ func NewV4() UUID {
 
 // Default generator implementation.
 type Generator struct {
-	clockSequenceOnce sync.Once
-	hardwareAddrOnce  sync.Once
-	storageMutex      sync.Mutex
-	rand              io.Reader
-	epochFunc         epochFunc
-	hwAddrFunc        hwAddrFunc
-	lastTime          uint64
-	clockSequence     uint16
-	hardwareAddr      [6]byte
+	rand       io.Reader
+	epochFunc  epochFunc
+	hwAddrFunc hwAddrFunc
 }
 
-func newRFC4122Generator() *Generator {
+func NewRFC4122Generator() *Generator {
 	return &Generator{
 		epochFunc:  time.Now,
-		hwAddrFunc: defaultHWAddrFunc,
+		hwAddrFunc: DefaultHWAddrFunc,
 		rand:       rand.Reader,
 	}
 }
@@ -58,7 +51,7 @@ func (g *Generator) NewV4() (UUID, error) {
 }
 
 // Returns hardware address.
-func defaultHWAddrFunc() (net.HardwareAddr, error) {
+func DefaultHWAddrFunc() (net.HardwareAddr, error) {
 	var ifaces, err = net.Interfaces()
 	if err != nil {
 		return []byte{}, err

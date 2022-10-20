@@ -1,4 +1,4 @@
-package mssql-uuid
+package mssql
 
 import (
 	"bytes"
@@ -275,9 +275,9 @@ func (u *UUID) Scan(src any) error {
 	return fmt.Errorf("cannot convert %T to UUID", src)
 }
 
-// Set UUID from data fetched from a (MS)SQL Server as unique identifier.
+// Set UUID from data fetched from a MSSQL Server as unique identifier.
 //
-// SQL server stores UUID in a different way some conversion is required (GORM does not convert back the format correctly).
+// SQL server stores UUID in a different way some conversion is required.
 func (u *UUID) SetFromMSSQLBytes(data []byte) error {
 	var a = binary.LittleEndian.Uint32(data[0:])
 	var b = binary.LittleEndian.Uint16(data[4:])

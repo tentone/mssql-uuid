@@ -1,4 +1,4 @@
-package mssql-uuid
+package mssql
 
 import (
 	"database/sql/driver"
