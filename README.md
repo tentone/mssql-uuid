@@ -6,6 +6,19 @@
  - uniqueidentifier is globally unique, whereas identity is unique within a table.
  - Can be used alongside ORM such as [GORM](https://gorm.io/)
 
+## Example
+
+```go
+package main
+
+import uuid "github.com/tentone/mssql-uuid"
+
+func main() {
+	var uid uuid.UUID = uuid.NewV4()
+	print(uid.String())
+}
+```
+
 ## UUID Storage
 
  - Microsoft implementation of UUID uses litle endian for the first half the first 8 bytes, and big Endian encoding for the second 8 bytes.
